@@ -21,6 +21,6 @@ version_variable = [
 version_pattern = [
     "executrix.spec:Version:\\s+{version}",
 ]
-branch = "master"
+branch = "main"
 commit = true
 tag = true
