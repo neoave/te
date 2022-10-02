@@ -1,0 +1,76 @@
+---
+name: Test & Release
+
+on: workflow_dispatch
+
+jobs:
+  pre-commit:
+    name: run pre-commit hook
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - uses: pre-commit/action@v2.0.3
+
+  test:
+    name: run tox tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install krb5-config libvirt-dev  # missing distro dependencies
+        run: sudo apt update && sudo apt-get install libkrb5-dev libvirt-dev
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install Tox and any other packages
+        run: pip install tox
+      - name: Run Tox
+        run: tox -e py
+
+  release:
+    name: executrix semantic release
+    runs-on: ubuntu-latest
+    needs: [pre-commit, test]
+    if: github.repository == 'neoave/executrix'
+    steps:
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Display Python version
+        run: python --version
+      - name: Set up changelog date to use later
+        run: echo "TODAY=`date "+%a %b %d %Y"`" >> ${GITHUB_ENV}
+      - name: Set RELEASE_ACTOR
+        env:
+          RELEASE_ACTOR_TIBORIS: ${{ secrets.RELEASE_ACTOR_TIBORIS }}
+          RELEASE_ACTOR_DAV_PASCUAL: ${{ secrets.RELEASE_ACTOR_DAV_PASCUAL }}
+          RELEASE_ACTOR_PVOBORNI: ${{ secrets.RELEASE_ACTOR_PVOBORNI }}
+          RELEASE_ACTOR_KALEEMSIDDIQU: ${{ secrets.RELEASE_ACTOR_KALEEMSIDDIQU }}
+        run: |
+          RELEASE_ACTOR=RELEASE_ACTOR_$(echo ${GITHUB_ACTOR^^} | tr - _)
+          echo "RELEASE_ACTOR=${!RELEASE_ACTOR}" >> ${GITHUB_ENV}
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Get the new version using python-semantic-releaseq
+        run: |
+          pip3 install python-semantic-release==7.30.1
+          echo "NEW_VERSION="`semantic-release print-version --noop` >> ${GITHUB_ENV}
+      - name: Update the executrix.spec changelog with initiator and basic message
+        run: |
+          CHANGELOG_BODY="- Released upstream version $NEW_VERSION"
+          sed -ri \
+          "s/\%changelog/\%changelog\\n\*\ $TODAY\ $RELEASE_ACTOR\ -\ $NEW_VERSION-1\\n$CHANGELOG_BODY\\n/" \
+          executrix.spec
+      - name: Add specfile to commit
+        run: git add executrix.spec
+      - name: Python Semantic Release
+        uses: relekang/python-semantic-release@v7.30.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pypi_token: ${{ secrets.PYPI_TOKEN }}
+      - name: Trigger COPR build
+        run: curl -X POST ${{ secrets.COPR_WEBHOOK_URL }}
