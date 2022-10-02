@@ -20,6 +20,7 @@ class ColorHandler(logging.Handler):
     }
 
     def handle(self, record):
+        """Colorize the record and print it to matching output."""
         output, color = self.level_output.get(record.levelno)
         color = getattr(record, "color", color)
 

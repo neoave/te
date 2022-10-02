@@ -22,18 +22,21 @@ class CommandStep(StepType):
     """Step for executing shell command on a remote or local machine."""
 
     def __init__(self, options):
+        """Step initialization."""
         self.host = options.get("host", "localhost")
         self.cmd_text = options["command"].strip()
         self.cwd = options.get("cwd")
         self.user = options.get("user", "root")
 
     def run(self, timeout, **kwargs):
+        """Execute command step."""
         if self.host == "localhost":
             return local_command(self.cmd_text, self.cwd, timeout)
         return remote_command(self.cmd_text, self.host, self.cwd, self.user, timeout)
 
     @staticmethod
     def match(options):
+        """Match options with 'command'."""
         return "command" in options
 
 

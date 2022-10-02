@@ -45,6 +45,7 @@ class PlaybookNotFound(Exception):
     """Raised when Playbook file is not found."""
 
     def __init__(self, playbook):
+        """Exception initialization."""
         super().__init__()
         self.playbook = playbook
 
@@ -53,6 +54,7 @@ class TimeoutException(Exception):
     """Raised when step or phase time-outs."""
 
     def __init__(self, timeout):
+        """Exception initialization."""
         super().__init__()
         self.msg = f"Timed out after {timeout}s."
 
@@ -74,6 +76,7 @@ class StepTypes:
     """Registry for step types."""
 
     def __init__(self):
+        """Registry initialization."""
         self._step_types = set()
 
     def register(self, step_type):
@@ -89,12 +92,12 @@ class StepTypes:
 
 
 def command_output(text):
-    """Wrapper for printing command outputs."""
+    """Wrap printing command outputs."""
     logging.LoggerAdapter(logger, {"color": None}).debug(text)
 
 
 def common_popen_args():
-    """Common arguments for popen calls."""
+    """Get common arguments for popen calls."""
     return {
         "cwd": test_dir(),
         "stdout": subprocess.PIPE,
@@ -144,6 +147,7 @@ def run(cmd, run_args, timeout=None):
 
 def run_step(step, metadata_path, timeout):
     """Run one specific step from metadata configuration.
+
     Step can have one of 'playbook', 'pytests', 'restraint' or 'command'
     attribute depending on the test type.
     :param metadata_path: provided metadata path

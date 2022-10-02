@@ -39,7 +39,7 @@ logger.addHandler(ColorHandler())
 
 
 def is_url(path):
-    """Check if `path` starts with http(s)://"""
+    """Check if `path` starts with 'http(s)://'."""
     return bool(re.match("(http|https)://", path))
 
 

@@ -23,6 +23,7 @@ class PlaybookStep(StepType):
     """Step for executing Ansible playbook."""
 
     def __init__(self, options):
+        """Initialize playbook step."""
         self.playbook = options["playbook"]
         self.extra_vars = options.get("extra_vars", {})
         self.extra_args = options.get("extra_args", {})
@@ -93,11 +94,12 @@ class PlaybookStep(StepType):
 
     @staticmethod
     def match(options):
+        """Match options containing 'playbook'."""
         return "playbook" in options
 
 
 def add_extra_vars_option(cmd, extra_vars, position):
-    """Adds extra vars option in command list on given position."""
+    """Add extra vars option in command list on given position."""
     cmd[position:position] = ["-e", json.dumps(extra_vars, separators=(",", ":"))]
 
 

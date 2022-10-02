@@ -12,11 +12,12 @@ class RestraintStep(StepType):
     """Step for executing beakerlib tests via restraint."""
 
     def __init__(self, options):
+        """Initialize Restraint step."""
         self.restraint_file = options["restraint"]
         self.git = options.get("git", None)
 
     def run(self, timeout, **kwargs):
-        """Run restraint test
+        """Run restraint test.
 
         :param restraint_file: path to restraint.xml configuration file
         :param timeout: seconds for step to timeout
@@ -39,4 +40,5 @@ class RestraintStep(StepType):
 
     @staticmethod
     def match(options):
+        """Match options with 'restraint'."""
         return "restraint" in options

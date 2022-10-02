@@ -11,6 +11,7 @@ class PytestsStep(StepType):
     """Step for executing pytest tests."""
 
     def __init__(self, options):
+        """Initialize pytest step."""
         self.suite = options["pytests"]
         self.git = options.get("git", None)
         self.args = options.get("args")
@@ -49,4 +50,5 @@ class PytestsStep(StepType):
 
     @staticmethod
     def match(options):
+        """Match options with 'pytest'."""
         return "pytests" in options

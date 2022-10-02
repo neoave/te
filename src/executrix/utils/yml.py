@@ -29,8 +29,8 @@ def fd_open(filename=None):
 
 
 def save_yaml(path, data):
-    """
-    Writes data with yaml.dump() to file specified by path.
+    """Format data in yaml format and write them to file specified by path.
+
     If path is not specified use stdout.
     """
     with fd_open(path) as yaml_file:
@@ -38,9 +38,9 @@ def save_yaml(path, data):
 
 
 def save_data(path, data):
-    """
-    Writes data with file.write() to file specified by path.
-    if path is not specified use stdout.
+    """Write raw data to file specified by path.
+
+    If path is not specified use stdout.
     """
     with open(path, "w", encoding="utf-8") as file:
         file.write(data)
