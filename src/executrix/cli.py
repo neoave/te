@@ -85,6 +85,7 @@ def get_phase(metadata, phase_name):
 
 
 def get_phases_upto(metadata, upto):
+    """Select all phases from start upto a given phase (including)."""
     if not get_phase(metadata, upto):
         return []
 
@@ -99,6 +100,7 @@ def get_phases_upto(metadata, upto):
 
 
 def run():
+    """Run the executrix's CLI."""
     parser = argparse.ArgumentParser(
         description="""
     Run steps as defined in metadata.
@@ -156,7 +158,7 @@ def run():
     else:
         phases = metadata.get("phases", [])
 
-    if not len(phases):
+    if len(phases) <= 0:
         logger.error("No phase to run found")
         sys.exit(1)
 

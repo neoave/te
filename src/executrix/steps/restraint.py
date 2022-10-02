@@ -1,3 +1,5 @@
+"""Restraint step module."""
+
 import logging
 import os
 
@@ -7,6 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 class RestraintStep(StepType):
+    """Step for executing beakerlib tests via restraint."""
+
     def __init__(self, options):
         self.restraint_file = options["restraint"]
         self.git = options.get("git", None)
@@ -18,7 +22,7 @@ class RestraintStep(StepType):
         :param timeout: seconds for step to timeout
         :return: 'restraint' command exit code
         """
-        logger.info("RESTRAINT JOB STEP START: {}".format(self.restraint_file))
+        logger.info("RESTRAINT JOB STEP START: %s", self.restraint_file)
         if self.git:
             restraint_file = os.path.join(self.git, self.restraint_file)
         elif not os.path.isabs(restraint_file):
@@ -29,8 +33,8 @@ class RestraintStep(StepType):
         ]
         returncode = run(cmd, common_popen_args(), timeout)
 
-        logger.info("RETURN CODE: {}".format(returncode))
-        logger.info("RESTRAINT JOB STEP END: {}".format(restraint_file))
+        logger.info("RETURN CODE: %s", returncode)
+        logger.info("RESTRAINT JOB STEP END: %s", restraint_file)
         return returncode
 
     @staticmethod

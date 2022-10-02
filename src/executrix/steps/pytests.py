@@ -1,3 +1,5 @@
+"""Pytest step module."""
+
 import logging
 
 from executrix.te import StepType, common_popen_args, run
@@ -6,6 +8,8 @@ logger = logging.getLogger(__name__)
 
 
 class PytestsStep(StepType):
+    """Step for executing pytest tests."""
+
     def __init__(self, options):
         self.suite = options["pytests"]
         self.git = options.get("git", None)
@@ -24,23 +28,23 @@ class PytestsStep(StepType):
 
         :return: pytest exit code
         """
-        logger.info("UPSTREAM TESTS STEP START: {}".format(self.suite))
+        logger.info("UPSTREAM TESTS STEP START: %s", self.suite)
 
         cmd = ["run-pytests.py", self.suite]
 
         if self.git:
-            cmd.append("--git-dir={}".format(self.git))
+            cmd.append(f"--git-dir={self.git}")
         if self.version:
-            cmd.append("--version={}".format(self.version))
+            cmd.append(f"--version={self.version}")
         if self.args:
-            cmd.append('--args="{}"'.format(self.args))
+            cmd.append(f'--args="{self.args}"')
         if self.ssh_transport:
-            cmd.append('--ssh-transport="{}"'.format(self.ssh_transport))
+            cmd.append(f'--ssh-transport="{self.ssh_transport}"')
 
         returncode = run(cmd, common_popen_args(), timeout)
 
-        logger.info("RETURN CODE: {}".format(returncode))
-        logger.info("UPSTREAM TESTS STEP END: {}".format(self.suite))
+        logger.info("RETURN CODE: %s", returncode)
+        logger.info("UPSTREAM TESTS STEP END: %s", self.suite)
         return returncode
 
     @staticmethod

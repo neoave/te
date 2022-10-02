@@ -1,3 +1,5 @@
+"""Playbook step module."""
+
 import json
 import logging
 import os
@@ -18,6 +20,8 @@ logger = logging.getLogger(__name__)
 
 
 class PlaybookStep(StepType):
+    """Step for executing Ansible playbook."""
+
     def __init__(self, options):
         self.playbook = options["playbook"]
         self.extra_vars = options.get("extra_vars", {})
@@ -40,7 +44,7 @@ class PlaybookStep(StepType):
         name = self.playbook
         if dynamic_playbook:
             name = "Dynamic playbook"
-        logger.info("PLAYBOOK START: {}".format(name))
+        logger.info(f"PLAYBOOK START: {name}")
         ansible_extra_vars = {
             "twd": test_dir(),
             "metadata": kwargs["metadata_path"],
@@ -67,8 +71,8 @@ class PlaybookStep(StepType):
             "ansible-playbook",
             '--ssh-extra-args="-o StrictHostKeyChecking=no"',
             '--ssh-extra-args="-o UserKnownHostsFile=/dev/null"',
-            "--private-key={}".format(key_path),
-            "--inventory={}".format(inventory_path),
+            f"--private-key={key_path}",
+            f"--inventory={inventory_path}",
             playbook_path,
         ]
         add_extra_vars_option(cmd, ansible_extra_vars, 4)
@@ -77,14 +81,14 @@ class PlaybookStep(StepType):
 
         run_args = common_popen_args()
         run_args["env"] = ansible_env()
-        logger.info("CMD: {}".format(cmd))
+        logger.info("CMD: %s", cmd)
 
         returncode = run(cmd, run_args, timeout)
         if dynamic_playbook:
             os.remove(playbook_path)
 
-        logger.info("RETURN CODE: {}".format(returncode))
-        logger.info("PLAYBOOK END: {}".format(name))
+        logger.info("RETURN CODE: %s", returncode)
+        logger.info("PLAYBOOK END: %s", name)
         return returncode
 
     @staticmethod
@@ -93,10 +97,12 @@ class PlaybookStep(StepType):
 
 
 def add_extra_vars_option(cmd, extra_vars, position):
+    """Adds extra vars option in command list on given position."""
     cmd[position:position] = ["-e", json.dumps(extra_vars, separators=(",", ":"))]
 
 
 def ansible_env():
+    """Get default environment for Ansible playbook based on current os env."""
     my_env = os.environ.copy()
     my_env["ANSIBLE_STDOUT_CALLBACK"] = "yaml"
     my_env["ANSIBLE_HOST_KEY_CHECKING"] = "False"

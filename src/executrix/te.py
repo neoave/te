@@ -1,3 +1,5 @@
+"""Module with core te functionality."""
+
 import logging
 import os
 import signal
@@ -16,10 +18,12 @@ PRIV_KEY_PATH = "config/id_rsa"
 
 
 def test_dir():
+    """Get test working directory (twd) path."""
     return os.getcwd()
 
 
 def get_playbook_path(playbook):
+    """Find absolute path of playbook."""
     if os.path.isabs(playbook):
         if os.path.isfile(playbook):
             return playbook
@@ -38,44 +42,59 @@ def get_playbook_path(playbook):
 
 
 class PlaybookNotFound(Exception):
+    """Raised when Playbook file is not found."""
+
     def __init__(self, playbook):
         super().__init__()
         self.playbook = playbook
 
 
 class TimeoutException(Exception):
+    """Raised when step or phase time-outs."""
+
     def __init__(self, timeout):
-        super(TimeoutException, self).__init__()
+        super().__init__()
         self.msg = f"Timed out after {timeout}s."
 
 
 class StepType:
+    """Base class for steps."""
+
     def run(self, timeout, **kwargs):
+        """Run the step."""
         raise NotImplementedError
 
     @staticmethod
     def match(options):
+        """Figure out of this StepType matches step in job metadata."""
         raise NotImplementedError
 
 
 class StepTypes:
+    """Registry for step types."""
+
     def __init__(self):
         self._step_types = set()
 
     def register(self, step_type):
+        """Register new step type."""
         self._step_types.add(step_type)
 
     def resolve(self, options):
+        """Get matching StepType."""
         for step_type in self._step_types:
             if step_type.match(options):
                 return step_type(options)
+        return None
 
 
 def command_output(text):
+    """Wrapper for printing command outputs."""
     logging.LoggerAdapter(logger, {"color": None}).debug(text)
 
 
 def common_popen_args():
+    """Common arguments for popen calls."""
     return {
         "cwd": test_dir(),
         "stdout": subprocess.PIPE,
@@ -103,7 +122,8 @@ def run(cmd, run_args, timeout=None):
     pinfo = {}
 
     def target():
-        process = subprocess.Popen(cmd, **run_args)
+        # TODO: remove the pylint exception
+        process = subprocess.Popen(cmd, **run_args)  # pylint: disable=R1732
         pinfo["process"] = process
         for line in iter(process.stdout.readline, b""):
             command_output(line.decode("utf-8").rstrip("\n"))
@@ -133,10 +153,11 @@ def run_step(step, metadata_path, timeout):
 
     if step_runner:
         return step_runner.run(timeout, metadata_path=metadata_path)
-    raise RuntimeError("Unsupported step type {}".format(str(step)))
+    raise RuntimeError(f"Unsupported step type {str(step)}")
 
 
 def run_phases(phases, metadata, metadata_path, timeout=DEFAULT_PHASE_TIMEOUT):
+    """Run discovered phases in sequence."""
     for phase in phases:
         timeout = phase.get("timeout", timeout)
 
@@ -171,7 +192,7 @@ def run_phases(phases, metadata, metadata_path, timeout=DEFAULT_PHASE_TIMEOUT):
                     return rc
             step_end = int(time.time())
             timeout -= step_end - step_start
-        logger.info("PHASE END: {}\n".format(name))
+        logger.info("PHASE END: %s\n", name)
         if failed:
             logger.error("PHASE: Some step in phase failed")
             logger.error("STOPPING EXECUTION")
@@ -180,6 +201,7 @@ def run_phases(phases, metadata, metadata_path, timeout=DEFAULT_PHASE_TIMEOUT):
 
 
 def install_extensions(extensions, user=False):
+    """Install extension projects defined in job metadata file."""
     pip_cmd = ["pip3", "install"]
     if user:
         # add --user option to have a permission to install packages outside of
@@ -187,14 +209,14 @@ def install_extensions(extensions, user=False):
         pip_cmd.append("--user")
 
     for extension in extensions:
-        result = subprocess.run(pip_cmd + [extension["package"]])
+        result = subprocess.run(pip_cmd + [extension["package"]], check=False)
         if result.returncode:
             if user:
                 return result.returncode
             # retry installation using local user environment
             return install_extensions(extensions, user=True)
 
-    import pkg_resources
+    import pkg_resources  # pylint: disable=C0415
 
     for ext_module in pkg_resources.iter_entry_points("executrix_extensions"):
         logger.info(f"LOAD EXTENSION: {ext_module.name}")

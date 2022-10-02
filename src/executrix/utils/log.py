@@ -1,3 +1,5 @@
+"""Utility module for logging."""
+
 import logging
 import sys
 from datetime import datetime
@@ -8,6 +10,8 @@ from executrix.config import config
 
 
 class ColorHandler(logging.Handler):
+    """Log handler for colorizing log output."""
+
     level_output = {
         logging.INFO: (sys.stdout, 36),  # cyan
         logging.DEBUG: (sys.stdout, 32),  # green

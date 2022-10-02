@@ -54,8 +54,8 @@ repos:
         exclude: ^(docs|tests)/.*$
         args: ["--ignore-missing-imports"]
 
-  - repo: https://github.com/pre-commit/mirrors-pylint
-    rev: v2.7.4
+  - repo: https://github.com/PyCQA/pylint
+    rev: v2.14.5
     hooks:
       - id: pylint
         additional_dependencies: ["isort[pyproject]"]

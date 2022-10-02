@@ -1,3 +1,5 @@
+"""Command step module."""
+
 import logging
 import os
 import tempfile
@@ -17,6 +19,8 @@ logger = logging.getLogger(__name__)
 
 
 class CommandStep(StepType):
+    """Step for executing shell command on a remote or local machine."""
+
     def __init__(self, options):
         self.host = options.get("host", "localhost")
         self.cmd_text = options["command"].strip()
@@ -34,6 +38,7 @@ class CommandStep(StepType):
 
 
 def to_external_hostname(hostname):
+    """Get connectable hostname or IP address from job hostname."""
     inv_path = os.path.join(test_dir(), INVENTORY)
     inventory = read_yaml(inv_path)
 
@@ -44,9 +49,11 @@ def to_external_hostname(hostname):
         host = hosts.get(hostname)
         if host:
             return host.get("ansible_host")
+    return None
 
 
 def upload_script(script_code, host, user, key_path):
+    """Upload shell script to remove host."""
     filename = f"{uuid.uuid4().hex}.sh"
 
     with tempfile.NamedTemporaryFile(mode="w+") as temp_f:
@@ -67,6 +74,7 @@ def upload_script(script_code, host, user, key_path):
 
 
 def local_command(cmd_text, cwd, timeout):
+    """Run shell command on localhost."""
     logger.info("LOCAL COMMAND STEP START")
     logger.info(f"Command: {cmd_text}")
     args = common_popen_args()
