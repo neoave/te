@@ -23,6 +23,7 @@ from executrix.common.log import ColorHandler
 from executrix.common.metadata import get_metadata_path, get_phase, get_phases_upto
 from executrix.common.runner import run_phases
 from executrix.common.yml import read_yaml
+from executrix.steps import register_steps
 
 logger = logging.getLogger("")
 logger.setLevel(logging.DEBUG)
@@ -96,6 +97,7 @@ def run():
         logger.error("No phase to run found")
         sys.exit(1)
 
+    register_steps()
     rc = run_phases(phases, metadata, metadata_path, args.phase_timeout)
     sys.exit(rc)
 
