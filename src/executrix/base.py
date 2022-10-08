@@ -3,11 +3,7 @@
 import os
 import site
 
-
-class BrokenInstallation(Exception):
-    """Broken Installation exception."""
-
-    pass
+from executrix.exceptions import BrokenInstallation
 
 
 def iter_ci_data_dirs():

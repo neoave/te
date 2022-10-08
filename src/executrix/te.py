@@ -9,6 +9,7 @@ import time
 
 from executrix.base import iter_ci_data_dirs
 from executrix.config import config
+from executrix.exceptions import PlaybookNotFound, TimeoutException
 
 logger = logging.getLogger(__name__)
 
@@ -39,24 +40,6 @@ def get_playbook_path(playbook):
             if os.path.isfile(path):
                 return path
     raise PlaybookNotFound(playbook)
-
-
-class PlaybookNotFound(Exception):
-    """Raised when Playbook file is not found."""
-
-    def __init__(self, playbook):
-        """Exception initialization."""
-        super().__init__()
-        self.playbook = playbook
-
-
-class TimeoutException(Exception):
-    """Raised when step or phase time-outs."""
-
-    def __init__(self, timeout):
-        """Exception initialization."""
-        super().__init__()
-        self.msg = f"Timed out after {timeout}s."
 
 
 class StepType:
