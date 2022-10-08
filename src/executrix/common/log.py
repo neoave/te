@@ -6,7 +6,7 @@ from datetime import datetime
 
 from xtermcolor import colorize
 
-from executrix.config import config
+from executrix.common.config import config
 
 
 class ColorHandler(logging.Handler):
