@@ -46,6 +46,10 @@ def run(cmd, run_args, timeout=None):
 
     pinfo = {}
 
+    # reset group id so that killing the newly spawn process and its child
+    # won't kill also `te`
+    run_args["preexec_fn"] = os.setpgrp
+
     def target():
         # TODO: remove the pylint exception
         process = subprocess.Popen(cmd, **run_args)  # pylint: disable=R1732
