@@ -77,6 +77,7 @@ def run():
 
     config["dry_run"] = args.dry_run
     config["print_timestamp"] = args.timestamp
+    config["phase_timeout"] = args.phase_timeout
 
     metadata_path = get_metadata_path(args.metadata)
 
