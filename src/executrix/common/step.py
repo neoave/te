@@ -31,3 +31,6 @@ class StepTypes:
             if step_type.match(options):
                 return step_type(options)
         return None
+
+
+step_types = StepTypes()

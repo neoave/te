@@ -6,7 +6,7 @@ import time
 
 from executrix.common.config import config
 from executrix.common.exceptions import TimeoutException
-from executrix.common.step import StepTypes
+from executrix.common.step import step_types
 
 logger = logging.getLogger(__name__)
 
@@ -93,6 +93,3 @@ def install_extensions(extensions, user=False):
         ext_module.load()
 
     return 0
-
-
-step_types = StepTypes()
