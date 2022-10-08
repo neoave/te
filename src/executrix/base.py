@@ -3,7 +3,7 @@
 import os
 import site
 
-from executrix.exceptions import BrokenInstallation
+from executrix.common.exceptions import BrokenInstallation
 
 
 def iter_ci_data_dirs():
