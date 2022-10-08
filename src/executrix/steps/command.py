@@ -6,8 +6,8 @@ import tempfile
 import uuid
 
 from executrix.step import StepType
-from executrix.te import INVENTORY, PRIV_KEY_PATH, common_popen_args, run, test_dir
-from executrix.utils.yml import read_yaml
+from executrix.te import PRIV_KEY_PATH, common_popen_args, run, test_dir
+from executrix.utils.inventory import to_external_hostname
 
 logger = logging.getLogger(__name__)
 
@@ -32,21 +32,6 @@ class CommandStep(StepType):
     def match(options):
         """Match options with 'command'."""
         return "command" in options
-
-
-def to_external_hostname(hostname):
-    """Get connectable hostname or IP address from job hostname."""
-    inv_path = os.path.join(test_dir(), INVENTORY)
-    inventory = read_yaml(inv_path)
-
-    for group in inventory["all"]["children"].items():
-        hosts = group[1].get("hosts")
-        if not hosts:
-            continue
-        host = hosts.get(hostname)
-        if host:
-            return host.get("ansible_host")
-    return None
 
 
 def upload_script(script_code, host, user, key_path):

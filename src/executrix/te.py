@@ -15,7 +15,6 @@ from executrix.step import StepTypes
 logger = logging.getLogger(__name__)
 
 DEFAULT_PHASE_TIMEOUT = 4 * 60 * 60
-INVENTORY = "config/test.inventory.yaml"
 PRIV_KEY_PATH = "config/id_rsa"
 
 

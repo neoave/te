@@ -8,13 +8,13 @@ from tempfile import NamedTemporaryFile
 from executrix.base import get_ci_data_dir
 from executrix.step import StepType
 from executrix.te import (
-    INVENTORY,
     PRIV_KEY_PATH,
     common_popen_args,
     get_playbook_path,
     run,
     test_dir,
 )
+from executrix.utils.inventory import INVENTORY
 
 logger = logging.getLogger(__name__)
 
