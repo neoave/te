@@ -18,11 +18,11 @@ import argparse
 import logging
 import sys
 
-from executrix.common.config import config
+from executrix.common.config import DEFAULT_PHASE_TIMEOUT, config
 from executrix.common.log import ColorHandler
 from executrix.common.metadata import get_metadata_path, get_phase, get_phases_upto
 from executrix.common.yml import read_yaml
-from executrix.te import DEFAULT_PHASE_TIMEOUT, run_phases
+from executrix.te import run_phases
 
 logger = logging.getLogger("")
 logger.setLevel(logging.DEBUG)

@@ -5,11 +5,11 @@ import logging
 import os
 from tempfile import NamedTemporaryFile
 
+from executrix.common.config import config
 from executrix.common.inventory import INVENTORY
 from executrix.common.paths import get_ci_data_dir, get_playbook_path, test_dir
 from executrix.common.process import common_popen_args, run
 from executrix.common.step import StepType
-from executrix.te import PRIV_KEY_PATH
 
 logger = logging.getLogger(__name__)
 
@@ -58,7 +58,7 @@ class PlaybookStep(StepType):
         else:
             playbook_path = get_playbook_path(self.playbook)
 
-        key_path = os.path.join(test_dir(), PRIV_KEY_PATH)
+        key_path = os.path.join(test_dir(), config["private_key_path"])
         if not self.inventory:
             inventory = INVENTORY
         inventory_path = os.path.join(test_dir(), inventory)

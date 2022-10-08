@@ -4,13 +4,11 @@ import logging
 import subprocess
 import time
 
+from executrix.common.config import config
 from executrix.common.exceptions import TimeoutException
 from executrix.common.step import StepTypes
 
 logger = logging.getLogger(__name__)
-
-DEFAULT_PHASE_TIMEOUT = 4 * 60 * 60
-PRIV_KEY_PATH = "config/id_rsa"
 
 
 def run_step(step, metadata_path, timeout):
@@ -28,7 +26,7 @@ def run_step(step, metadata_path, timeout):
     raise RuntimeError(f"Unsupported step type {str(step)}")
 
 
-def run_phases(phases, metadata, metadata_path, timeout=DEFAULT_PHASE_TIMEOUT):
+def run_phases(phases, metadata, metadata_path, timeout=config["phase_timeout"]):
     """Run discovered phases in sequence."""
     for phase in phases:
         timeout = phase.get("timeout", timeout)

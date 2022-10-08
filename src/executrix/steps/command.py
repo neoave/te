@@ -5,11 +5,11 @@ import os
 import tempfile
 import uuid
 
+from executrix.common.config import config
 from executrix.common.inventory import to_external_hostname
 from executrix.common.paths import test_dir
 from executrix.common.process import common_popen_args, run
 from executrix.common.step import StepType
-from executrix.te import PRIV_KEY_PATH
 
 logger = logging.getLogger(__name__)
 
@@ -97,7 +97,7 @@ def remote_command(cmd_text, host, cwd, user, timeout):
         raise RuntimeError(f"Host not found in inventory: {host}")
     logger.debug(f"Real host: {real_host}")
 
-    key_path = os.path.join(test_dir(), PRIV_KEY_PATH)
+    key_path = os.path.join(test_dir(), config["private_key_path"])
 
     cmd = [
         "ssh",
