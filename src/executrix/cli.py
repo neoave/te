@@ -24,10 +24,10 @@ import tempfile
 import requests
 from requests.exceptions import RequestException
 
+from executrix.common.log import ColorHandler
+from executrix.common.yml import read_yaml
 from executrix.config import config
 from executrix.te import DEFAULT_PHASE_TIMEOUT, run_phases
-from executrix.utils.log import ColorHandler
-from executrix.utils.yml import read_yaml
 
 logger = logging.getLogger("")
 logger.setLevel(logging.DEBUG)

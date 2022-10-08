@@ -6,6 +6,7 @@ import os
 from tempfile import NamedTemporaryFile
 
 from executrix.base import get_ci_data_dir
+from executrix.common.inventory import INVENTORY
 from executrix.step import StepType
 from executrix.te import (
     PRIV_KEY_PATH,
@@ -14,7 +15,6 @@ from executrix.te import (
     run,
     test_dir,
 )
-from executrix.utils.inventory import INVENTORY
 
 logger = logging.getLogger(__name__)
 
