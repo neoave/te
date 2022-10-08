@@ -5,14 +5,8 @@ import os
 import tempfile
 import uuid
 
-from executrix.te import (
-    INVENTORY,
-    PRIV_KEY_PATH,
-    StepType,
-    common_popen_args,
-    run,
-    test_dir,
-)
+from executrix.step import StepType
+from executrix.te import INVENTORY, PRIV_KEY_PATH, common_popen_args, run, test_dir
 from executrix.utils.yml import read_yaml
 
 logger = logging.getLogger(__name__)

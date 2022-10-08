@@ -3,7 +3,8 @@
 import logging
 import os
 
-from executrix.te import StepType, common_popen_args, run, test_dir
+from executrix.step import StepType
+from executrix.te import common_popen_args, run, test_dir
 
 logger = logging.getLogger(__name__)
 
