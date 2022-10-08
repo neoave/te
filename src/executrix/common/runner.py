@@ -5,8 +5,8 @@ import time
 
 from executrix.common.config import config
 from executrix.common.exceptions import TimeoutException
+from executrix.common.extensions import install_extensions
 from executrix.common.step import step_types
-from executrix.te import install_extensions
 
 logger = logging.getLogger(__name__)
 

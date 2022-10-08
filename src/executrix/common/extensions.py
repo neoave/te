@@ -1,4 +1,4 @@
-"""Module with core te functionality."""
+"""Module extensions functionality."""
 
 import logging
 import subprocess
