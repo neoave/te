@@ -7,7 +7,7 @@ import uuid
 
 from executrix.common.inventory import to_external_hostname
 from executrix.common.paths import test_dir
-from executrix.step import StepType
+from executrix.common.step import StepType
 from executrix.te import PRIV_KEY_PATH, common_popen_args, run
 
 logger = logging.getLogger(__name__)

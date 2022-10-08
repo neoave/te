@@ -9,8 +9,8 @@ import time
 
 from executrix.common.exceptions import TimeoutException
 from executrix.common.paths import test_dir
+from executrix.common.step import StepTypes
 from executrix.config import config
-from executrix.step import StepTypes
 
 logger = logging.getLogger(__name__)
 

@@ -4,7 +4,7 @@ import logging
 import os
 
 from executrix.common.paths import test_dir
-from executrix.step import StepType
+from executrix.common.step import StepType
 from executrix.te import common_popen_args, run
 
 logger = logging.getLogger(__name__)
