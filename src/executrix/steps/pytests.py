@@ -30,7 +30,7 @@ class PytestsStep(StepType):
 
         :return: pytest exit code
         """
-        logger.info("UPSTREAM TESTS STEP START: %s", self.suite)
+        logger.info(f"UPSTREAM TESTS STEP START: {self.suite}")
 
         cmd = ["run-pytests.py", self.suite]
 
@@ -45,8 +45,8 @@ class PytestsStep(StepType):
 
         returncode = run(cmd, common_popen_args(), timeout)
 
-        logger.info("RETURN CODE: %s", returncode)
-        logger.info("UPSTREAM TESTS STEP END: %s", self.suite)
+        logger.info(f"RETURN CODE: {returncode}")
+        logger.info(f"UPSTREAM TESTS STEP END: {self.suite}")
         return returncode
 
     @staticmethod

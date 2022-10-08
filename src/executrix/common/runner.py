@@ -62,7 +62,7 @@ def run_phases(phases, metadata, metadata_path, timeout=config["phase_timeout"])
                     return rc
             step_end = int(time.time())
             timeout -= step_end - step_start
-        logger.info("PHASE END: %s\n", name)
+        logger.info(f"PHASE END: {name}\n")
         if failed:
             logger.error("PHASE: Some step in phase failed")
             logger.error("STOPPING EXECUTION")

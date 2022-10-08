@@ -25,7 +25,7 @@ class RestraintStep(StepType):
         :param timeout: seconds for step to timeout
         :return: 'restraint' command exit code
         """
-        logger.info("RESTRAINT JOB STEP START: %s", self.restraint_file)
+        logger.info(f"RESTRAINT JOB STEP START: {self.restraint_file}")
         if self.git:
             restraint_file = os.path.join(self.git, self.restraint_file)
         elif not os.path.isabs(restraint_file):
@@ -36,8 +36,8 @@ class RestraintStep(StepType):
         ]
         returncode = run(cmd, common_popen_args(), timeout)
 
-        logger.info("RETURN CODE: %s", returncode)
-        logger.info("RESTRAINT JOB STEP END: %s", restraint_file)
+        logger.info(f"RETURN CODE: {returncode}")
+        logger.info(f"RESTRAINT JOB STEP END: {restraint_file}")
         return returncode
 
     @staticmethod

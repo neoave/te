@@ -26,14 +26,14 @@ def get_metadata_path(original_path):
         metadata_path = os.path.join(os.getcwd(), original_path)
 
         if not os.path.isfile(metadata_path):
-            logger.error("Unable to find metadata file: %s", metadata_path)
+            logger.error(f"Unable to find metadata file: {metadata_path}")
             sys.exit(1)
     else:
         try:
             response = requests.get(original_path)
             response.raise_for_status()
         except RequestException:
-            logger.error("Unable to download metadata file: %s", original_path)
+            logger.error(f"Unable to download metadata file: {original_path}")
             sys.exit(1)
 
         with tempfile.NamedTemporaryFile(mode="w+", delete=False) as temp_f:

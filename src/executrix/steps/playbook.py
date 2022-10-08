@@ -77,14 +77,14 @@ class PlaybookStep(StepType):
 
         run_args = common_popen_args()
         run_args["env"] = ansible_env()
-        logger.info("CMD: %s", cmd)
+        logger.info(f"CMD: {' '.join(cmd)}")
 
         returncode = run(cmd, run_args, timeout)
         if dynamic_playbook:
             os.remove(playbook_path)
 
-        logger.info("RETURN CODE: %s", returncode)
-        logger.info("PLAYBOOK END: %s", name)
+        logger.info(f"RETURN CODE: {returncode}")
+        logger.info(f"PLAYBOOK END: {name}")
         return returncode
 
     @staticmethod
