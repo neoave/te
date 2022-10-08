@@ -65,6 +65,7 @@ class PlaybookStep(StepType):
 
         cmd = [
             "ansible-playbook",
+            "--timeout=60",
             '--ssh-extra-args="-o StrictHostKeyChecking=no"',
             '--ssh-extra-args="-o UserKnownHostsFile=/dev/null"',
             f"--private-key={key_path}",
