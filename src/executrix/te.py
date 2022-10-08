@@ -7,8 +7,8 @@ import subprocess
 import threading
 import time
 
-from executrix.base import iter_ci_data_dirs
-from executrix.common.exceptions import PlaybookNotFound, TimeoutException
+from executrix.common.exceptions import TimeoutException
+from executrix.common.paths import test_dir
 from executrix.config import config
 from executrix.step import StepTypes
 
@@ -16,30 +16,6 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_PHASE_TIMEOUT = 4 * 60 * 60
 PRIV_KEY_PATH = "config/id_rsa"
-
-
-def test_dir():
-    """Get test working directory (twd) path."""
-    return os.getcwd()
-
-
-def get_playbook_path(playbook):
-    """Find absolute path of playbook."""
-    if os.path.isabs(playbook):
-        if os.path.isfile(playbook):
-            return playbook
-    else:
-        # Assuming playbooks relative to twd, e.g. in checked-out test dir
-        # are more specific than in general project dir. Thus prefer those in
-        # case of name/path conflict.
-        path = os.path.join(test_dir(), playbook)
-        if os.path.isfile(path):
-            return path
-        for ci_data_dir in iter_ci_data_dirs():
-            path = os.path.join(ci_data_dir, "playbooks", playbook)
-            if os.path.isfile(path):
-                return path
-    raise PlaybookNotFound(playbook)
 
 
 def command_output(text):
