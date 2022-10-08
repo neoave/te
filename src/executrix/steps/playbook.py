@@ -7,8 +7,9 @@ from tempfile import NamedTemporaryFile
 
 from executrix.common.inventory import INVENTORY
 from executrix.common.paths import get_ci_data_dir, get_playbook_path, test_dir
+from executrix.common.process import common_popen_args, run
 from executrix.common.step import StepType
-from executrix.te import PRIV_KEY_PATH, common_popen_args, run
+from executrix.te import PRIV_KEY_PATH
 
 logger = logging.getLogger(__name__)
 
