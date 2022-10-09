@@ -1,10 +1,10 @@
 """Playbook step module."""
 
-import json
 import logging
 import os
 from tempfile import NamedTemporaryFile
 
+from executrix.common.ansible import add_extra_vars_option, ansible_env
 from executrix.common.config import config
 from executrix.common.inventory import INVENTORY
 from executrix.common.paths import get_ci_data_dir, get_playbook_path, test_dir
@@ -92,16 +92,3 @@ class PlaybookStep(StepType):
     def match(options):
         """Match options containing 'playbook'."""
         return "playbook" in options
-
-
-def add_extra_vars_option(cmd, extra_vars, position):
-    """Add extra vars option in command list on given position."""
-    cmd[position:position] = ["-e", json.dumps(extra_vars, separators=(",", ":"))]
-
-
-def ansible_env():
-    """Get default environment for Ansible playbook based on current os env."""
-    my_env = os.environ.copy()
-    my_env["ANSIBLE_STDOUT_CALLBACK"] = "yaml"
-    my_env["ANSIBLE_HOST_KEY_CHECKING"] = "False"
-    return my_env
