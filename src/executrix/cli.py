@@ -19,6 +19,11 @@ import logging
 import sys
 
 from executrix.common.config import DEFAULT_PHASE_TIMEOUT, config
+from executrix.common.exceptions import (
+    BrokenInstallation,
+    PlaybookNotFound,
+    TimeoutException,
+)
 from executrix.common.log import ColorHandler
 from executrix.common.metadata import get_metadata_path, get_phase, get_phases_upto
 from executrix.common.runner import run_phases
@@ -99,7 +104,21 @@ def run():
         sys.exit(1)
 
     register_steps()
-    rc = run_phases(phases, metadata, metadata_path, args.phase_timeout)
+
+    rc = 1  # Default for most errors
+    try:
+        rc = run_phases(phases, metadata, metadata_path, args.phase_timeout)
+    except PlaybookNotFound as e:
+        logger.error(f"Ansible playbook not found: {e.playbook}")
+    except RuntimeError as e:
+        logger.error(e)
+    except TimeoutException as e:
+        logger.error(e)
+    except BrokenInstallation as e:
+        logger.error(e, exc_info=True)
+    except Exception as e:  # pylint: disable=W0703
+        logger.error(e, exc_info=True)
+
     sys.exit(rc)
 
 
