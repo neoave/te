@@ -21,8 +21,12 @@ class PlaybookStep(StepType):
         """Initialize playbook step."""
         self.playbook = options["playbook"]
         self.extra_vars = options.get("extra_vars", {})
-        self.extra_args = options.get("extra_args", {})
+        self.extra_args = options.get("extra_args", [])
         self.inventory = options.get("inventory", None)
+
+        # allow single value extra arg defined as str instead of desired list
+        if isinstance(self.extra_args, str):
+            self.extra_args = [self.extra_args]
 
     def run(self, timeout, **kwargs):
         """Prepare and run ansible playbook.
@@ -70,11 +74,13 @@ class PlaybookStep(StepType):
             '--ssh-extra-args="-o UserKnownHostsFile=/dev/null"',
             f"--private-key={key_path}",
             f"--inventory={inventory_path}",
-            playbook_path,
         ]
         add_extra_vars_option(cmd, ansible_extra_vars, 4)
+
         if self.extra_args:
-            cmd.append(self.extra_args)
+            cmd.extend(self.extra_args)
+
+        cmd.append(playbook_path)
 
         run_args = common_popen_args()
         run_args["env"] = ansible_env()
