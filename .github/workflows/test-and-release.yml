@@ -8,37 +8,37 @@ jobs:
     name: run pre-commit hook
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: 3.9
-      - uses: pre-commit/action@v2.0.3
+          python-version: "3.11"
+      - uses: pre-commit/action@v3.0.0
 
   test:
     name: run tox tests
     runs-on: ubuntu-latest
     steps:
-      - name: Install krb5-config libvirt-dev  # missing distro dependencies
-        run: sudo apt update && sudo apt-get install libkrb5-dev libvirt-dev
-      - uses: actions/checkout@v2
+      - name: Install distro deps
+        run: sudo apt update
+      - uses: actions/checkout@v3
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: "3.11"
       - name: Install Tox and any other packages
         run: pip install tox
       - name: Run Tox
         run: tox -e py
 
   release:
-    name: te semantic release
+    name: semantic release
     runs-on: ubuntu-latest
     needs: [pre-commit, test]
     if: github.repository == 'neoave/te'
     steps:
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: "3.11"
       - name: Display Python version
         run: python --version
       - name: Set up changelog date to use later
@@ -52,25 +52,35 @@ jobs:
         run: |
           RELEASE_ACTOR=RELEASE_ACTOR_$(echo ${GITHUB_ACTOR^^} | tr - _)
           echo "RELEASE_ACTOR=${!RELEASE_ACTOR}" >> ${GITHUB_ENV}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
+          persist-credentials: false  # do not set the actions user to git config
           fetch-depth: 0
-      - name: Get the new version using python-semantic-releaseq
+      - name: Get the new version using python-semantic-release
         run: |
-          pip3 install python-semantic-release==7.30.1
+          pip3 install python-semantic-release==7.33.1
           echo "NEW_VERSION="`semantic-release print-version --noop` >> ${GITHUB_ENV}
       - name: Update the te.spec changelog with initiator and basic message
         run: |
-          CHANGELOG_BODY="- Released upstream version $NEW_VERSION"
+          # get the history of commits and generate changelog from it
+          git log  --pretty=format:"- %h %s (%cn)" $(git describe --tags --abbrev=0)..HEAD > changelog_changes
+          # add newline after generated changelog for changelog sections to be visually separated
+          echo -e "\n" >> changelog_changes
+          echo "============NEW CHANGELOG================="
+          cat changelog_changes
+          echo "=========================================="
+          # write changelog to te.spec
+          sed -i '/%changelog/r changelog_changes' te.spec
+          # write header of changelog to te.spec
           sed -ri \
-          "s/\%changelog/\%changelog\\n\*\ $TODAY\ $RELEASE_ACTOR\ -\ $NEW_VERSION-1\\n$CHANGELOG_BODY\\n/" \
+          "s/\%changelog/\%changelog\\n\*\ $TODAY\ $RELEASE_ACTOR\ -\ $NEW_VERSION-1/" \
           te.spec
       - name: Add specfile to commit
         run: git add te.spec
       - name: Python Semantic Release
-        uses: relekang/python-semantic-release@v7.30.1
+        uses: relekang/python-semantic-release@v7.33.1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.TIBORIS_GH_TOKEN }}
           pypi_token: ${{ secrets.PYPI_TOKEN }}
       - name: Trigger COPR build
         run: curl -X POST ${{ secrets.COPR_WEBHOOK_URL }}

@@ -4,13 +4,13 @@ name: Check commit message and PR header format
 on:
   pull_request:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   check-commit-message:
     runs-on: ubuntu-latest
     steps:
-      - uses: gsactions/commit-message-checker@v1
+      - uses: gsactions/commit-message-checker@v2
         with:
           pattern: '^(feat|fix|docs|style|refactor|perf|test|chore)(\(.+\))?:\ .+$'
           flags: 'gm'
