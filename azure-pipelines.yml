@@ -1,19 +1,13 @@
 ---
-# Python package
-# Create and test a Python package on multiple Python versions.
-# Add steps that analyze code, save the dist with the build record,
-# publish to a PyPI-compatible index, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-
 trigger:
-  - master
+  - main
 
 pool:
   vmImage: 'ubuntu-latest'
 strategy:
   matrix:
-    Python39:
-      python.version: '3.9'
+    Python311:
+      python.version: '3.11'
 
 steps:
   - task: UsePythonVersion@0
@@ -23,7 +17,6 @@ steps:
 
   - script: |
       sudo apt-get update -y
-      sudo apt-get install libvirt-dev libkrb5-dev -y
     displayName: 'Install distro dependencies'
 
   - script: |
@@ -57,6 +50,9 @@ steps:
       isort tests --check --diff
     displayName: 'isort'
 
+  - script: |
+      make rpms
+    displayName: 'rpms'
 
   - script: |
       cd docs
@@ -65,7 +61,7 @@ steps:
     displayName: 'build-docs'
 
   - task: PublishPipelineArtifact@1
-    inputs:
-      targetPath: docs/_build/html
-      artifactName: 'docs'
     displayName: 'save-docs'
+    inputs:
+      artifact: 'docs'
+      targetPath: docs/_build/html
