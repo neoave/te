@@ -1,4 +1,4 @@
-from executrix.cli import run
+from te.cli import run
 
 
 def test_smoke():

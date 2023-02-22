@@ -1,4 +1,4 @@
-.. executrix documentation master file
+.. te documentation master file
 
 Executrix introduction
 ======================

@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = "executrix"
+project = "te"
 copyright = "2022, Red Hat Inc."
 author = "Petr Vobornik"
 

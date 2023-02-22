@@ -24,7 +24,7 @@ def install_extensions(extensions, user=False):
 
     import pkg_resources  # pylint: disable=C0415
 
-    for ext_module in pkg_resources.iter_entry_points("executrix_extensions"):
+    for ext_module in pkg_resources.iter_entry_points("te_extensions"):
         logger.info(f"LOAD EXTENSION: {ext_module.name}")
         ext_module.load()
 

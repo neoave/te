@@ -3,9 +3,9 @@
 import logging
 import os
 
-from executrix.common.paths import test_dir
-from executrix.common.process import common_popen_args, run
-from executrix.common.step import StepType
+from te.common.paths import test_dir
+from te.common.process import common_popen_args, run
+from te.common.step import StepType
 
 logger = logging.getLogger(__name__)
 

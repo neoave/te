@@ -12,23 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""executrix default CLI tool."""
+"""te default CLI tool."""
 
 import argparse
 import logging
 import sys
 
-from executrix.common.config import DEFAULT_PHASE_TIMEOUT, config
-from executrix.common.exceptions import (
+from te.common.config import DEFAULT_PHASE_TIMEOUT, config
+from te.common.exceptions import (
     BrokenInstallation,
     PlaybookNotFound,
     TimeoutException,
 )
-from executrix.common.log import ColorHandler
-from executrix.common.metadata import get_metadata_path, get_phase, get_phases_upto
-from executrix.common.runner import run_phases
-from executrix.common.yml import read_yaml
-from executrix.steps import register_steps
+from te.common.log import ColorHandler
+from te.common.metadata import get_metadata_path, get_phase, get_phases_upto
+from te.common.runner import run_phases
+from te.common.yml import read_yaml
+from te.steps import register_steps
 
 logger = logging.getLogger("")
 logger.setLevel(logging.DEBUG)
@@ -40,7 +40,7 @@ logger.addHandler(ColorHandler())
 
 
 def run():
-    """Run the executrix's CLI."""
+    """Run the te's CLI."""
     parser = argparse.ArgumentParser(
         description="""
     Run steps as defined in metadata.

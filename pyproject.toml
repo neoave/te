@@ -1,7 +1,7 @@
 [tool.isort]
 atomic = true
 include_trailing_comma = true
-known_first_party = "executrix"
+known_first_party = "te"
 line_length = 88
 multi_line_output = 3
 
@@ -13,13 +13,13 @@ markers = [
 [tool.semantic_release]
 version_source = "commit"
 commit_subject = "chore: Release version {version}"
-commit_message = "Releasing executrix version {version}"
+commit_message = "Releasing te version {version}"
 version_variable = [
-    "src/executrix/version.py:VERSION",
+    "src/te/version.py:VERSION",
     "docs/conf.py:release",
 ]
 version_pattern = [
-    "executrix.spec:Version:\\s+{version}",
+    "te.spec:Version:\\s+{version}",
 ]
 branch = "main"
 commit = true

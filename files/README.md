@@ -1,1 +1,1 @@
-# Directory for data files of executrix' plugins
+# Directory for data files of te' plugins

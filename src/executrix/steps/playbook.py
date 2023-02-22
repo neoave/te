@@ -4,12 +4,12 @@ import logging
 import os
 from tempfile import NamedTemporaryFile
 
-from executrix.common.ansible import add_extra_vars_option, ansible_env
-from executrix.common.config import config
-from executrix.common.inventory import INVENTORY
-from executrix.common.paths import get_ci_data_dir, get_playbook_path, test_dir
-from executrix.common.process import common_popen_args, run
-from executrix.common.step import StepType
+from te.common.ansible import add_extra_vars_option, ansible_env
+from te.common.config import config
+from te.common.inventory import INVENTORY
+from te.common.paths import get_ci_data_dir, get_playbook_path, test_dir
+from te.common.process import common_popen_args, run
+from te.common.step import StepType
 
 logger = logging.getLogger(__name__)
 

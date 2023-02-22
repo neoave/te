@@ -3,13 +3,13 @@
 import os
 import site
 
-from executrix.common.exceptions import BrokenInstallation, PlaybookNotFound
+from te.common.exceptions import BrokenInstallation, PlaybookNotFound
 
 
 def iter_ci_data_dirs():
-    """Iterate over executrix data dirs to get all shared directories."""
+    """Iterate over te data dirs to get all shared directories."""
     for prefix in site.PREFIXES + [site.USER_BASE]:
-        path = os.path.join(prefix, "share/executrix")
+        path = os.path.join(prefix, "share/te")
         if os.path.isdir(path):
             yield path
 

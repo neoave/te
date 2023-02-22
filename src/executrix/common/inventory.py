@@ -2,8 +2,8 @@
 
 import os
 
-from executrix.common.paths import test_dir
-from executrix.common.yml import read_yaml
+from te.common.paths import test_dir
+from te.common.yml import read_yaml
 
 INVENTORY = "config/test.inventory.yaml"
 

@@ -1,1 +1,1 @@
-# Directory for playbooks of executrix' plugins
+# Directory for playbooks of te' plugins

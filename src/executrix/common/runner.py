@@ -3,10 +3,10 @@
 import logging
 import time
 
-from executrix.common.config import config
-from executrix.common.exceptions import TimeoutException
-from executrix.common.extensions import install_extensions
-from executrix.common.step import step_types
+from te.common.config import config
+from te.common.exceptions import TimeoutException
+from te.common.extensions import install_extensions
+from te.common.step import step_types
 
 logger = logging.getLogger(__name__)
 

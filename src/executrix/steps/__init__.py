@@ -1,11 +1,11 @@
 """Build-in steps."""
 
-from executrix.common.step import step_types
-from executrix.steps.command import CommandStep
-from executrix.steps.module import ModuleStep
-from executrix.steps.playbook import PlaybookStep
-from executrix.steps.pytests import PytestsStep
-from executrix.steps.restraint import RestraintStep
+from te.common.step import step_types
+from te.steps.command import CommandStep
+from te.steps.module import ModuleStep
+from te.steps.playbook import PlaybookStep
+from te.steps.pytests import PytestsStep
+from te.steps.restraint import RestraintStep
 
 
 def register_steps():

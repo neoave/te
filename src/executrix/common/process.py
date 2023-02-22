@@ -6,9 +6,9 @@ import signal
 import subprocess
 import threading
 
-from executrix.common.config import config
-from executrix.common.exceptions import TimeoutException
-from executrix.common.paths import test_dir
+from te.common.config import config
+from te.common.exceptions import TimeoutException
+from te.common.paths import test_dir
 
 logger = logging.getLogger(__name__)
 

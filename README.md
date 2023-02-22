@@ -1,6 +1,6 @@
-# executrix
+# te
 
-![pypi_badge](https://img.shields.io/pypi/v/executrix?label=PyPI&logo=pypi) ![readthedocs_badge](https://img.shields.io/readthedocs/executrix?label=Read%20the%20Docs&logo=read-the-docs) ![badge](https://copr.fedorainfracloud.org/coprs/g/freeipa/neoave/package/executrix/status_image/last_build.png)
+![pypi_badge](https://img.shields.io/pypi/v/te?label=PyPI&logo=pypi) ![readthedocs_badge](https://img.shields.io/readthedocs/te?label=Read%20the%20Docs&logo=read-the-docs) ![badge](https://copr.fedorainfracloud.org/coprs/g/freeipa/neoave/package/te/status_image/last_build.png)
 
 Executrix is a general multi-host workload execution utility.
 
@@ -16,29 +16,29 @@ Primary use cases are:
 
 ## Installation
 
-executrix can be installed via pip, from [PyPI](https://pypi.org/project/executrix/):
+te can be installed via pip, from [PyPI](https://pypi.org/project/te/):
 
 ```bash
-pip install executrix
+pip install te
 ```
 
-It is also available for Fedora 37+ via [COPR](https://copr.fedorainfracloud.org/coprs/g/freeipa/neoave/package/executrix/):
+It is also available for Fedora 37+ via [COPR](https://copr.fedorainfracloud.org/coprs/g/freeipa/neoave/package/te/):
 
 ```
 sudo dnf copr enable @freeipa/neoave
-sudo dnf install executrix
+sudo dnf install te
 ```
 
 ## Run
 
 ```bash
-$ executrix run
+$ te run
 # runs all phases
 
-$ executrix run --phase my-phase-name
+$ te run --phase my-phase-name
 # runs only this phase
 
-$ executrix run --upto some-other-phase
+$ te run --upto some-other-phase
 # runs all phases from beginning upto the defined one (including)
 ```
 

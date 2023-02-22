@@ -1,4 +1,4 @@
-"""Module for executrix exceptions."""
+"""Module for te exceptions."""
 
 
 class BrokenInstallation(Exception):

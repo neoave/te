@@ -2,8 +2,8 @@
 
 import logging
 
-from executrix.common.process import common_popen_args, run
-from executrix.common.step import StepType
+from te.common.process import common_popen_args, run
+from te.common.step import StepType
 
 logger = logging.getLogger(__name__)
 
