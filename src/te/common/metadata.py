@@ -10,6 +10,7 @@ import requests
 from requests.exceptions import RequestException
 
 logger = logging.getLogger(__name__)
+get_timeout = 300
 
 
 def is_url(path):
@@ -30,7 +31,7 @@ def get_metadata_path(original_path):
             sys.exit(1)
     else:
         try:
-            response = requests.get(original_path)
+            response = requests.get(original_path, timeout=get_timeout)
             response.raise_for_status()
         except RequestException:
             logger.error(f"Unable to download metadata file: {original_path}")
