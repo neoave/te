@@ -21,7 +21,7 @@ tox:
 	tox
 
 test: venv
-	. .env/bin/activate; .env/bin/pytest tests/unit
+	. .env/bin/activate; .env/bin/pytest -vvv tests/unit
 
 
 # Python development in venv
@@ -32,6 +32,9 @@ venv: .env/touchfile
 	. .env/bin/activate; pip3 install -Ur requirements.txt
 	. .env/bin/activate; pip3 install -Ur test-requirements.txt
 	touch .env/touchfile
+
+install:
+	. .env/bin/activate; pip3 install -U . --no-deps
 
 # Docs
 docs:
