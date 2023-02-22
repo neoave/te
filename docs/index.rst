@@ -1,9 +1,9 @@
 .. te documentation master file
 
-Executrix introduction
+`te` introduction
 ======================
 
-Executrix is a general multi-host workload execution utility.
+`te` is a general multi-host workload execution utility.
 
 It's intentionally lightweight, utilizing existing technology like Ansible for
 execution and Mrack for provisioning.

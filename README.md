@@ -2,7 +2,7 @@
 
 ![pypi_badge](https://img.shields.io/pypi/v/te?label=PyPI&logo=pypi) ![readthedocs_badge](https://img.shields.io/readthedocs/te?label=Read%20the%20Docs&logo=read-the-docs) ![badge](https://copr.fedorainfracloud.org/coprs/g/freeipa/neoave/package/te/status_image/last_build.png)
 
-Executrix is a general multi-host workload execution utility.
+`te` is a general multi-host workload execution utility.
 
 It's intentionally lightweight, utilizing existing technology like Ansible
 for execution and Mrack for provisioning.
