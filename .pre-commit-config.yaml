@@ -53,6 +53,7 @@ repos:
       - id: mypy
         exclude: ^(docs|tests)/.*$
         args: ["--ignore-missing-imports"]
+        additional_dependencies: ["types-PyYAML", "types-requests", "types-setuptools"]
 
   - repo: https://github.com/PyCQA/pylint
     rev: v2.14.5
