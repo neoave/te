@@ -19,11 +19,7 @@ import logging
 import sys
 
 from te.common.config import DEFAULT_PHASE_TIMEOUT, config
-from te.common.exceptions import (
-    BrokenInstallation,
-    PlaybookNotFound,
-    TimeoutException,
-)
+from te.common.exceptions import BrokenInstallation, PlaybookNotFound, TimeoutException
 from te.common.log import ColorHandler
 from te.common.metadata import get_metadata_path, get_phase, get_phases_upto
 from te.common.runner import run_phases
