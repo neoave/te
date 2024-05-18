@@ -45,6 +45,7 @@ setup(
     packages=find_packages("src"),
     package_dir={"": "src"},
     install_requires=reqs,
+    include_package_data=True,
     scripts=["scripts/te"],
     data_files=[
         ("share/te/files", ["files/README.md"]),
